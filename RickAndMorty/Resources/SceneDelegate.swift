@@ -11,12 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
+    // a scene is a window of your app
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return } // Use as? when you are unsure if an object can be downcasted successfully.
+        
+        // init my view controller thats going to be used for that scene
+        let vc = RMTabBarViewController()
+        
+        let window = UIWindow(windowScene: windowScene) // This method creates the new window and automatically associates it with the specified scene.
+        window.rootViewController = vc // first point of entry
+        window.makeKeyAndVisible() // This is a convenience method to show the current window and position it in front of all other windows at the same level or lower.
+        self.window = window
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
