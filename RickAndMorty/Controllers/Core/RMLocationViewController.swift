@@ -8,6 +8,8 @@
 import UIKit
 
 // final means it cannot be subclassed
+
+/// Controllers to show and search locations
 final class RMLocationViewController: UIViewController {
 
     override func viewDidLoad() {

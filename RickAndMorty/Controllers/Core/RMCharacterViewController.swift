@@ -8,6 +8,8 @@
 import UIKit
 
 // final means it cannot be subclassed
+
+/// Controllers to show and search characters
 final class RMCharacterViewController: UIViewController {
 
     override func viewDidLoad() {

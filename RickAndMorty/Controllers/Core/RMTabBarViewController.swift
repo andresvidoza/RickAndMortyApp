@@ -8,6 +8,8 @@
 import UIKit
 
 // final means it cannot be subclassed
+
+/// Controller to house tabs and root tab controllers
 final class RMTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
