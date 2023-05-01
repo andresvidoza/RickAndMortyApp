@@ -8,7 +8,7 @@
 import UIKit
 
 /// View that handles showing list of characters, loaders and etc.
-class CharacterListView: UIView {
+class RMCharacterListView: UIView {
     
     // Get comfortable with using private variables if these are things you do not need outside this scope
     private let viewModel = CharacterListViewViewModel()
@@ -30,7 +30,7 @@ class CharacterListView: UIView {
         collectionView.isHidden = true; // hide by default until the data is loaded.
         collectionView.alpha = 0;
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
         return collectionView
     }()
     
