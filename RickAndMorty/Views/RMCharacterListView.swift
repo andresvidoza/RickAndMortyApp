@@ -11,7 +11,7 @@ import UIKit
 class RMCharacterListView: UIView {
     
     // Get comfortable with using private variables if these are things you do not need outside this scope
-    private let viewModel = CharacterListViewViewModel()
+    private let viewModel = RMCharacterListViewViewModel()
     
     // anonymous closure for the Spinner ( Assign this spinner to whatever the value of the function execution is. )
     private let spinner: UIActivityIndicatorView = {
@@ -30,6 +30,7 @@ class RMCharacterListView: UIView {
         collectionView.isHidden = true; // hide by default until the data is loaded.
         collectionView.alpha = 0;
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        // registering the cell to the UICollection View.
         collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
         return collectionView
     }()

@@ -12,6 +12,8 @@ final class RMCharacterCollectionViewCellViewModel{
     private let characterStatus: RMCharacterStatus
     private let characterImageUrl: URL?
     
+    // MARK - Init
+    
     init(
         characterName: String,
         characterStatus: RMCharacterStatus,
@@ -23,10 +25,24 @@ final class RMCharacterCollectionViewCellViewModel{
     }
     
     public var characterStatusText: String {
-        return characterStatus.rawValue
+        return characterStatus.rawValue // only care about the text
     }
     
-    public func fetchImage(completiion: @escaping(Result<Data, Error>) -> Void){
+    public func fetchImage(completion: @escaping(Result<Data, Error>) -> Void){
+        // TODO: Abstract to Image Manager
+        guard let url = characterImageUrl else {
+            completion(.failure(URLError(.badURL))) // throw error if no URL image
+            return
+        }
+        let request = URLRequest(url: url) // make request
         
+        let task = URLSession.shared.dataTask(with: request){data, _, error in
+            guard let data = data, error == nil else { //unwrap multiple optionals at once the comma is an &
+                completion(.failure(error ?? URLError(.badServerResponse)))
+                return
+            }
+            completion(.success(data))
+        }
+        task.resume()
     }
 }

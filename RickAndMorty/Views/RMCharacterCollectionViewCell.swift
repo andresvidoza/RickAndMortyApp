@@ -7,8 +7,8 @@
 
 import UIKit
 
-/// Single cell for a character
-class RMCharacterCollectionViewCell: UICollectionViewCell {
+/// Template of a single Cell.
+final class RMCharacterCollectionViewCell: UICollectionViewCell {
     static let cellIdentifier = "RMCharacterCollectionViewCell"
     
     private let imageView: UIImageView = {
@@ -40,7 +40,7 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         contentView.backgroundColor = .secondarySystemBackground
-        // content view is a function from cell that takes care of adding the subviews but with prioper constraints.
+        // content view is a function from cell that takes care of adding the subviews but with proper constraints.
         contentView.addSubviews(imageView, nameLabel, statusLabel)
         addConstraints();
     }
@@ -52,7 +52,21 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private func addConstraints(){
         NSLayoutConstraint.activate([
+            statusLabel.heightAnchor.constraint(equalToConstant: 40),
+            nameLabel.heightAnchor.constraint(equalToConstant: 40),
             
+            statusLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
+            statusLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
+            nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
+            nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
+            
+            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3)
         ])
     }
     
@@ -64,8 +78,22 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
         statusLabel.text = nil
     }
     
+    // custom function that will take care of populating the cell with the right data thanks to the Model.
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel){
-        
+        nameLabel.text = viewModel.characterName
+        statusLabel.text = viewModel.characterStatusText
+        viewModel.fetchImage { [weak self] result in // pointer (memory leaks and retain cycles topic)
+            switch result{
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let image = UIImage(data: data)
+                    self?.imageView.image = image
+                }
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
     }
     
     
