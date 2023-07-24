@@ -42,6 +42,8 @@ class RMCharacterListView: UIView {
         addConstraints()
         
         spinner.startAnimating()
+        
+        viewModel.delegate = self // tell view model to reload its data
         viewModel.fetchCharacters()
         setUpCollectionView()
     }
@@ -67,17 +69,17 @@ class RMCharacterListView: UIView {
     private func setUpCollectionView(){
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
-            self.spinner.stopAnimating()
-            
-            self.collectionView.isHidden = false;
-            
-            UIView.animate(withDuration: 0.4, animations: {
-                self.collectionView.alpha = 1;
-            })
-            
-        })
     }
 
+}
+
+extension RMCharacterListView: RMCharacterListViewViewModelDelegate{
+    func didLoadInitialCharacters() {
+        self.spinner.stopAnimating()
+        self.collectionView.isHidden = false;
+        collectionView.reloadData() // only reload for initial fetch of characters
+        UIView.animate(withDuration: 0.4, animations: {
+            self.collectionView.alpha = 1;
+        })
+    }
 }
