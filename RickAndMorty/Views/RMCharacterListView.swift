@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol RMCharacterListViewDelegate: AnyObject{
+    func rmCharacterListView(
+        _ characterListView: RMCharacterListView,
+        didSelectCharacter character: RMCharacter
+    )
+}
+
 /// View that handles showing list of characters, loaders and etc.
 class RMCharacterListView: UIView {
+    
+    public weak var delegate: RMCharacterListViewDelegate?
     
     // Get comfortable with using private variables if these are things you do not need outside this scope
     private let viewModel = RMCharacterListViewViewModel()
@@ -74,6 +83,12 @@ class RMCharacterListView: UIView {
 }
 
 extension RMCharacterListView: RMCharacterListViewViewModelDelegate{
+    
+    func didSelectCharacter(_ character: RMCharacter) {
+        delegate?.rmCharacterListView(self, didSelectCharacter: character)
+    }
+    
+    
     func didLoadInitialCharacters() {
         self.spinner.stopAnimating()
         self.collectionView.isHidden = false;
