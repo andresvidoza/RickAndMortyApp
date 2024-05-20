@@ -41,6 +41,7 @@ class RMCharacterListView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         // registering the cell to the UICollection View.
         collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
+        collectionView.register(RMFooterLoadingCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier)
         return collectionView
     }()
     
